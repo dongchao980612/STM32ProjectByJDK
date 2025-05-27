@@ -17,8 +17,10 @@ int main(void)
 	GPIO_InitStructure.GPIO_Pin =  GPIO_Pin_13;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 
+	
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 	
+	// 点亮LED
 	// GPIO_SetBits(GPIOC,GPIO_Pin_13); // high disable led
 	// GPIO_ResetBits(GPIOC,GPIO_Pin_13); // low ensable led
 	// GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET);// Bit_RESET->1 Bit_SET->0
@@ -26,14 +28,15 @@ int main(void)
 	
 	while (1)
     {
-		GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_RESET);
-		Delay_ms(500);
-		GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET);
-		Delay_ms(500);
+		// LED闪烁
+		// GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_RESET); // Bit_RESET->1  enable led
+		// Delay_ms(500);
+		// GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_SET); // Bit_SET->0  disable led
+		// Delay_ms(500);
 	
-		// GPIO_SetBits(GPIOC,GPIO_Pin_13); // high enable led
-		// Delay_s(1);
-		// GPIO_ResetBits(GPIOC,GPIO_Pin_13); // low disable led
-		// Delay_s(1);
+		GPIO_SetBits(GPIOC,GPIO_Pin_13); // high enable led
+		Delay_ms(500);
+		GPIO_ResetBits(GPIOC,GPIO_Pin_13); // low disable led
+		Delay_ms(500);
     }
 }

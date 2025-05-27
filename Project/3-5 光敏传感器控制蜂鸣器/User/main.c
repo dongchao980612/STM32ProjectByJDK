@@ -21,7 +21,7 @@ int main(void)
 	LightSensor_Init();
 	while (1)
     {
-		if(LightSensor_GetNum()==0){
+		if(LightSensor_GetNum() == 0){
 			Buzzer_ON();
 		}
 		else{
