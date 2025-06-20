@@ -1,13 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "delay.h"
 
-/**
-  * 点亮LED实验
-  * 引脚：
-  *      PC13
-  * 现象：
-  *      LED被点亮
-  */
 int main(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -27,7 +20,7 @@ int main(void)
 	// GPIO_Write();
 	
 	while (1)
-    {
+		{
 		// LED闪烁
 		// GPIO_WriteBit(GPIOC,GPIO_Pin_13,Bit_RESET); // Bit_RESET->1  enable led
 		// Delay_ms(500);

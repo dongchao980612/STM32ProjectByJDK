@@ -1,22 +1,48 @@
 #include "stm32f10x.h"
 #include "OLED_Font.h"
 
+typedef struct{
+	/* Tx Pin */
+	uint32_t             txClock;
+	uint16_t             txPin;
+	GPIO_TypeDef*        txPort;
+	/* Rx Pin */         
+	uint32_t             rxClock;
+	uint16_t             rxPin;
+	GPIO_TypeDef*        rxPort;
+} oledCfg_t;
+
+static oledCfg_t g_oledCfg = {
+	/* Tx Pin */
+	RCC_APB2Periph_GPIOB,
+	GPIO_Pin_8,
+	GPIOB,
+	/* Rx Pin */
+	RCC_APB2Periph_GPIOB,
+	GPIO_Pin_9,
+	GPIOB,
+};
+
+
 /*引脚配置*/
-#define OLED_W_SCL(x)		GPIO_WriteBit(GPIOB, GPIO_Pin_8, (BitAction)(x))
-#define OLED_W_SDA(x)		GPIO_WriteBit(GPIOB, GPIO_Pin_9, (BitAction)(x))
+#define OLED_W_SCL(x)		GPIO_WriteBit((g_oledCfg.txPort), (g_oledCfg.txPin), (BitAction)(x))
+#define OLED_W_SDA(x)		GPIO_WriteBit((g_oledCfg.rxPort), (g_oledCfg.rxPin), (BitAction)(x))
 
 /*引脚初始化*/
 void OLED_I2C_Init(void)
 {
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+	RCC_APB2PeriphClockCmd(g_oledCfg.rxClock, ENABLE);
+	RCC_APB2PeriphClockCmd(g_oledCfg.txClock, ENABLE);
 	
 	GPIO_InitTypeDef GPIO_InitStructure;
  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_8;
- 	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
- 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = g_oledCfg.txPin;
+ 	GPIO_Init(g_oledCfg.txPort, &GPIO_InitStructure);
+	
+	GPIO_InitStructure.GPIO_Pin = g_oledCfg.rxPin;
+ 	GPIO_Init(g_oledCfg.rxPort, &GPIO_InitStructure);
 	
 	// GPIO_SetBits(GPIOB,GPIO_Pin_14|GPIO_Pin_15);
 	

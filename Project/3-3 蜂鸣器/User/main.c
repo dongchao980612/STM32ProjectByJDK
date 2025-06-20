@@ -1,13 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "delay.h"
 
-/**
-  * 蜂鸣器实验
-  * 引脚：
-  *      PC13
-  * 现象：
-  *      蜂鸣器开始鸣叫
-  */
 int main(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure;
