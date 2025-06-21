@@ -1,11 +1,5 @@
 #include "stm32f10x.h"                  // Device header
-
-typedef struct{
-	/* LED */
-	GPIO_TypeDef*       ledPort;
-	uint32_t            ledClock;
-	uint16_t            ledPin;
-} LedCfg_t;
+#include "led.h"
 
 
 static LedCfg_t g_ledCfg = {
@@ -27,7 +21,7 @@ void LED_Init(void){
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP; 
 	GPIO_Init(GPIOC, &GPIO_InitStructure);
 	
-	GPIO_SetBits(g_ledCfg.ledPort,GPIO_Pin_13);
+	GPIO_SetBits(g_ledCfg.ledPort,g_ledCfg.ledPin);
  }
 
 void LED_Trun()

@@ -1,14 +1,8 @@
 #include "stm32f10x.h"                  // Device header
-
-typedef struct{
-	/* LightSensor */
-	GPIO_TypeDef*       lightSensorPort;
-	uint32_t            lightSensorClock;
-	uint16_t            lightSensorPin;
-} lightSensorCfg_t;
+#include "lightsensor.h"
 
 
-static lightSensorCfg_t g_lightSensorCfg = {
+static LightSensorCfg_t g_lightSensorCfg = {
 	/* LightSensor */
 	GPIOC,
 	RCC_APB2Periph_GPIOC,

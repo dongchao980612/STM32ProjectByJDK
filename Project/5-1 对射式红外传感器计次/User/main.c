@@ -1,6 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include "oled.h"
 #include "CountSensor.h"
+
 int main(void)
 {
 	/*模块初始化*/

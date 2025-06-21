@@ -1,6 +1,15 @@
 #ifndef __LED_H
 #define __LED_H
 
+
+typedef struct{
+	/* Led */
+	GPIO_TypeDef*       ledPort;
+	uint32_t            ledClock;
+	uint16_t            ledPin;
+} LedCfg_t;
+
+
 /**
   * @brief  初始化LED模块
   * @param  无

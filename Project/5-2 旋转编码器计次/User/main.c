@@ -3,6 +3,7 @@
 #include "Encoder.h"
 
 int16_t Num;
+
 int main(void)
 {
 	// OLED初始化

@@ -1,6 +1,18 @@
 #ifndef __OLED_H
 #define __OLED_H
 
+typedef struct{
+	/* Tx Pin */
+	uint32_t             txClock;
+	uint16_t             txPin;
+	GPIO_TypeDef*        txPort;
+	/* Rx Pin */         
+	uint32_t             rxClock;
+	uint16_t             rxPin;
+	GPIO_TypeDef*        rxPort;
+} OledCfg_t;
+
+
 void OLED_Init(void);
 void OLED_Clear(void);
 void OLED_ShowChar(uint8_t Line, uint8_t Column, char Char);

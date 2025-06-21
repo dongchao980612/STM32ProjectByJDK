@@ -1,6 +1,13 @@
 #ifndef __BUZZER_H
 #define __BUZZER_H
 
+typedef struct{
+	/* Buzzer */
+	GPIO_TypeDef*       buzzerPort;
+	uint32_t            buzzerClock;
+	uint16_t            buzzerPin;
+} BuzzerCfg_t;
+
 
 /**
   * @brief  初始化LED模块

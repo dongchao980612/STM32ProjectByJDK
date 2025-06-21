@@ -1,14 +1,8 @@
 #include "stm32f10x.h"                  // Device header
-
-typedef struct{
-	/* Buzzer */
-	GPIO_TypeDef*       buzzerPort;
-	uint32_t            buzzerClock;
-	uint16_t            buzzerPin;
-} buzzerCfg_t;
+#include "buzzer.h"
 
 
-static buzzerCfg_t g_buzzerCfg = {
+static BuzzerCfg_t g_buzzerCfg = {
 	/* Buzzer */
 	GPIOC,
 	RCC_APB2Periph_GPIOC,

@@ -1,12 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "delay.h"
-
-typedef struct{
-	/* Key */
-	GPIO_TypeDef*       keyPort;
-	uint32_t            keyClock;
-	uint16_t            keyPin;
-} KeyCfg_t;
+#include "key.h"
 
 
 static KeyCfg_t g_keyCfg = {
