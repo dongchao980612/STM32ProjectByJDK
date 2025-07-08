@@ -14,7 +14,7 @@ static LedCfg_t g_ledCfg = {
 	GPIOC,
 	RCC_APB2Periph_GPIOC,
 	GPIO_Pin_13,
-	1000
+	500
 };
 
 int main(void)
