@@ -10,6 +10,7 @@ typedef struct
     uint32_t						ledDelay;
 } LedCfg_t;
 
+
 static LedCfg_t g_ledCfg =
 {
     /* Led */
@@ -32,23 +33,24 @@ int main(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
 
     GPIO_Init(g_ledCfg.ledPort, &GPIO_InitStructure);
-	
-	
-    // ÁÇπ‰∫ÆLED
+
+
+    // µ„¡¡LED
     // GPIO_ResetBits(g_ledCfg.ledPort,g_ledCfg.ledPin); // high ensable led
     // GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_RESET);// Bit_RESET->1 Bit_SET->0
 
     while (1)
     {
-        // LEDÈó™ÁÉÅ
+        // LED…¡À∏1
         // GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_RESET); // Bit_RESET->1  enable led
         // Delay_ms(g_ledCfg.ledDelay);
         // GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_SET); // Bit_SET->0  disable led
         // Delay_ms(g_ledCfg.ledDelay);
-
-        // GPIO_SetBits(g_ledCfg.ledPort, g_ledCfg.ledPin); // low disable led
-        // Delay_ms(g_ledCfg.ledDelay);
-				// GPIO_ResetBits(g_ledCfg.ledPort,g_ledCfg.ledPin); // high ensable led
-				// Delay_ms(g_ledCfg.ledDelay);
+				
+				// LED…¡À∏2
+        GPIO_SetBits(g_ledCfg.ledPort, g_ledCfg.ledPin); // low disable led
+        Delay_ms(g_ledCfg.ledDelay);
+        GPIO_ResetBits(g_ledCfg.ledPort,g_ledCfg.ledPin); // high ensable led
+        Delay_ms(g_ledCfg.ledDelay);
     }
 }
