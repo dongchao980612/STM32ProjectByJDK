@@ -2,27 +2,26 @@
 #include "delay.h"
 #include "led.h"
 #include "key.h"
-  
-uint8_t keyNum = 0;
+
 
 int main(void)
 {
-	LED_Init();
-	Key_Init();
-	
-	while (1)
+    led_init();
+    key_init();
+
+    while (1)
     {
-//		LED_ON();
-//		Delay_ms(500);	
-//		LED_OFF();
-//		Delay_ms(300);	
-			
-		keyNum = Key_GetNum();
-		// PC14
-		if(keyNum == 1)
-			{ 
-			// LED_ON();
-			LED_Trun();
-			}
+//        led_on();
+//        delay_ms(1000);
+//        led_off();
+//        delay_ms(1000);
+
+
+
+        if(key_getNum() == 1)
+        {
+            led_turn();
+        }
+
     }
 }

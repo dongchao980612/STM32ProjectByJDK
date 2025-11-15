@@ -7,10 +7,11 @@ typedef struct{
 	GPIO_TypeDef*       keyPort;
 	uint32_t            keyClock;
 	uint16_t            keyPin;
+	GPIOMode_TypeDef             keyMode;
 } KeyCfg_t;
 
 
-void Key_Init(void);
-uint8_t Key_GetNum(void);
+void key_init(void);
+uint8_t key_getNum(void);
 
 #endif

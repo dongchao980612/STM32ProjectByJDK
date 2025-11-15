@@ -9,32 +9,16 @@ typedef struct{
 } BuzzerCfg_t;
 
 
-/**
-  * @brief  初始化LED模块
-  * @param  无
-  * @retval 无
-  */
-void Buzzer_Init(void);
 
-/**
-  * @brief  蜂鸣器鸣叫
-  * @param  无
-  * @retval 无
-  */
-void Buzzer_Trun(void);
+void buzzer_init(void);
 
-/**
-  * @brief  打开蜂鸣器
-  * @param  无
-  * @retval 无
-  */
-void Buzzer_ON(void);
 
-/**
-  * @brief  关闭蜂鸣器
-  * @param  无
-  * @retval 无
-  */
-void Buzzer_OFF(void);
+void buzzer_trun(void);
+
+
+void buzzer_on(void);
+
+
+void buzzer_off(void);
 
 #endif

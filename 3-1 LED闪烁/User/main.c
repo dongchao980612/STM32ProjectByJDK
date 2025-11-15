@@ -11,16 +11,14 @@ typedef struct
 } LedCfg_t;
 
 
+/* Led */
 static LedCfg_t g_ledCfg =
 {
-    /* Led */
     GPIOB,
     RCC_APB2Periph_GPIOB,
     GPIO_Pin_5,
     500
 };
-
-
 
 int main(void)
 {
@@ -35,22 +33,22 @@ int main(void)
     GPIO_Init(g_ledCfg.ledPort, &GPIO_InitStructure);
 
 
-    // 点亮LED
+    // 点亮LED 
     // GPIO_ResetBits(g_ledCfg.ledPort,g_ledCfg.ledPin); // high ensable led
     // GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_RESET);// Bit_RESET->1 Bit_SET->0
 
     while (1)
     {
-        // LED闪烁1
-        // GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_RESET); // Bit_RESET->1  enable led
-        // Delay_ms(g_ledCfg.ledDelay);
-        // GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_SET); // Bit_SET->0  disable led
-        // Delay_ms(g_ledCfg.ledDelay);
+        // LED闪烁0 方法一
+        GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_RESET); // Bit_RESET->1  enable led
+        delay_ms(g_ledCfg.ledDelay);
+        GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_SET); // Bit_SET->0  disable led
+        delay_ms(g_ledCfg.ledDelay);
 				
-				// LED闪烁2
+				// LED闪烁0 方法二
         GPIO_SetBits(g_ledCfg.ledPort, g_ledCfg.ledPin); // low disable led
-        Delay_ms(g_ledCfg.ledDelay);
+        delay_ms(g_ledCfg.ledDelay);
         GPIO_ResetBits(g_ledCfg.ledPort,g_ledCfg.ledPin); // high ensable led
-        Delay_ms(g_ledCfg.ledDelay);
+        delay_ms(g_ledCfg.ledDelay);
     }
 }

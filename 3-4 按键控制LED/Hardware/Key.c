@@ -2,38 +2,42 @@
 #include "delay.h"
 #include "key.h"
 
-
-static KeyCfg_t g_keyCfg = {
-	/* Key */
-	GPIOC,
-	RCC_APB2Periph_GPIOC,
-	GPIO_Pin_14,
+// 按键配置
+static KeyCfg_t g_keyCfgs[] =
+{
+    {GPIOE, RCC_APB2Periph_GPIOE, GPIO_Pin_4, GPIO_Mode_IPU}, // KEY0 通常上拉
+    {GPIOE, RCC_APB2Periph_GPIOE, GPIO_Pin_3, GPIO_Mode_IPU}, // KEY1 通常上拉
+    {GPIOA, RCC_APB2Periph_GPIOA, GPIO_Pin_0, GPIO_Mode_IPD}, // 根据KEY_UP硬件调整
 };
 
 
-void Key_Init(void){
-	RCC_APB2PeriphClockCmd(g_keyCfg.keyClock,ENABLE); 
+const int SELECT_KEY = 2;
 
-	GPIO_InitTypeDef GPIO_InitStructure;	 
-				 
-	GPIO_InitStructure.GPIO_Pin =  g_keyCfg.keyPin;
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU; 
-	GPIO_Init(g_keyCfg.keyPort, &GPIO_InitStructure);
-	
+// 按键初始化
+void key_init(void)
+{
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    RCC_APB2PeriphClockCmd(g_keyCfgs[SELECT_KEY].keyClock, ENABLE);
+    GPIO_InitStructure.GPIO_Pin  = g_keyCfgs[SELECT_KEY].keyPin;
+    GPIO_InitStructure.GPIO_Mode = g_keyCfgs[SELECT_KEY].keyMode;  // 上拉输入
+    GPIO_Init(g_keyCfgs[SELECT_KEY].keyPort, &GPIO_InitStructure);
 }
 
-uint8_t Key_GetNum(void){
-	uint8_t keyNum = 0;
-	
-	if(GPIO_ReadInputDataBit(g_keyCfg.keyPort,g_keyCfg.keyPin)==0) //按下
-	{
-		Delay_ms(20);
-		while(GPIO_ReadInputDataBit(g_keyCfg.keyPort,g_keyCfg.keyPin)==0){
-			Delay_ms(20);
-			keyNum = 1;
-			
-		}
-	}
-	return keyNum;
+uint8_t key_getNum(void)
+{
+    uint8_t keyNum = 0;
+
+    if(GPIO_ReadInputDataBit(g_keyCfgs[SELECT_KEY].keyPort, g_keyCfgs[SELECT_KEY].keyPin) == 0) //按下
+    {
+        delay_ms(20);
+
+        while(GPIO_ReadInputDataBit(g_keyCfgs[SELECT_KEY].keyPort, g_keyCfgs[SELECT_KEY].keyPin) == 0)
+        {
+            delay_ms(20);
+            keyNum = 1;
+        }
+    }
+
+    return keyNum;
 }

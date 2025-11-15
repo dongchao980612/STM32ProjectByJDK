@@ -6,16 +6,16 @@ typedef struct{
 	GPIO_TypeDef*       buzzerPort;
 	uint32_t            buzzerClock;
 	uint16_t            buzzerPin;
-	uint32_t						buzzerDelay100;
-	uint32_t						buzzerDelay700;
+	uint32_t						buzzerDelay;
+
 } BuzzerCfg_t;
 
 static BuzzerCfg_t g_buzzerCfg = {
 	/* Buzzer */
-	GPIOC,
-	RCC_APB2Periph_GPIOC,
-	GPIO_Pin_13,
-	100,700
+	GPIOB,
+	RCC_APB2Periph_GPIOB,
+	GPIO_Pin_8,
+	1000
 };
 
 
@@ -33,12 +33,12 @@ int main(void)
 	while (1)
     {
 		GPIO_WriteBit(g_buzzerCfg.buzzerPort,g_buzzerCfg.buzzerPin,Bit_RESET); 
-		Delay_ms(g_buzzerCfg.buzzerDelay100);	
+		delay_ms(g_buzzerCfg.buzzerDelay);	
 		GPIO_WriteBit(g_buzzerCfg.buzzerPort,g_buzzerCfg.buzzerPin,Bit_SET); 
-		Delay_ms(g_buzzerCfg.buzzerDelay100);	
+		delay_ms(g_buzzerCfg.buzzerDelay);	
 		GPIO_WriteBit(g_buzzerCfg.buzzerPort,g_buzzerCfg.buzzerPin,Bit_RESET); 
-		Delay_ms(g_buzzerCfg.buzzerDelay100);	
+		delay_ms(g_buzzerCfg.buzzerDelay);	
 		GPIO_WriteBit(g_buzzerCfg.buzzerPort,g_buzzerCfg.buzzerPin,Bit_SET); 
-		Delay_ms(g_buzzerCfg.buzzerDelay700);
+		delay_ms(g_buzzerCfg.buzzerDelay);
     }
 }
