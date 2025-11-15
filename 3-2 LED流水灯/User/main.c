@@ -41,11 +41,11 @@ int main(void)
         // µ„¡¡LED0£®PB.5£©£¨œ®√LED1£®PE.5£©
         GPIO_ResetBits(g_ledCfg.ledPort_B, g_ledCfg.ledPin_B);
         GPIO_SetBits(g_ledCfg.ledPort_E, g_ledCfg.ledPin_B);
-        delay_ms(g_ledCfg.ledDelay);
+        Delay_ms(g_ledCfg.ledDelay);
 
         // œ®√LED0£®PB.5£©£¨µ„¡¡LED1£®PE.5£©
         GPIO_SetBits(g_ledCfg.ledPort_B, g_ledCfg.ledPin_E);
         GPIO_ResetBits(g_ledCfg.ledPort_E, g_ledCfg.ledPin_E);
-        delay_ms(g_ledCfg.ledDelay);
+        Delay_ms(g_ledCfg.ledDelay);
     }
 }

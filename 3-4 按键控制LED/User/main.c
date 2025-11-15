@@ -6,21 +6,19 @@
 
 int main(void)
 {
-    led_init();
-    key_init();
+  Led_Init();
+  Key_Init();
 
-    while (1)
+  while (1)
     {
-//        led_on();
-//        delay_ms(1000);
-//        led_off();
-//        delay_ms(1000);
+        // Led_On();
+        // Delay_ms(1000);
+        // Led_Off();
+        // Delay_ms(1000);
 
-
-
-        if(key_getNum() == 1)
+      if(Key_GetNum() == 1)
         {
-            led_turn();
+          Led_Turn();
         }
 
     }

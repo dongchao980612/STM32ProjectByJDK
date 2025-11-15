@@ -11,7 +11,7 @@ typedef struct
 } LightSensorCfg_t;
 
 
-void lightSensor_init(void);
-uint8_t lightSensor_getNum(void);
+void LightSensor_Init(void);
+uint8_t LightSensor_GetNum(void);
 
 #endif

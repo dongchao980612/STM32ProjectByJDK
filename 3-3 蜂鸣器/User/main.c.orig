@@ -2,7 +2,7 @@
 #include "delay.h"
 
 
-/* Buzzer */
+  /* Buzzer */
 typedef struct
 {
   GPIO_TypeDef*       buzzerPort;
@@ -12,7 +12,7 @@ typedef struct
 
 } BuzzerCfg_t;
 
-/* Buzzer */
+  /* Buzzer */
 static BuzzerCfg_t g_buzzerCfg =
 {
   GPIOB,

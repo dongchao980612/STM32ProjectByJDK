@@ -11,7 +11,7 @@ typedef struct{
 } KeyCfg_t;
 
 
-void key_init(void);
-uint8_t key_getNum(void);
+void Key_Init(void);
+uint8_t Key_GetNum(void);
 
 #endif

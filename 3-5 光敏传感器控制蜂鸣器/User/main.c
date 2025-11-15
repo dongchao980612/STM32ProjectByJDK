@@ -7,22 +7,22 @@
 
 int main(void)
 {
-    led_init();
-    buzzer_init();
-    lightSensor_init();
+    Led_Init();
+    Buzzer_Init();
+    LightSensor_Init();
 
     while (1)
     {
 
-        if(lightSensor_getNum() == 0)
+        if(LightSensor_GetNum() == 0)
         {
-            buzzer_on();
-            led_off();
+            Buzzer_On();
+            Led_Off();
         }
         else
         {
-            buzzer_off();
-            led_on();
+            Buzzer_Off();
+            Led_On();
         }
     }
 }

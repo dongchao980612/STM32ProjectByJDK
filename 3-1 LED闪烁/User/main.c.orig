@@ -1,7 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include "delay.h"
 
-/* Led */
+  /* Led */
 typedef struct
 {
   GPIO_TypeDef*       ledPort;
@@ -33,19 +33,19 @@ int main(void)
   GPIO_Init(g_ledCfg.ledPort, &GPIO_InitStructure);
 
 
-  // µãÁÁLED
+  // ï¿½ï¿½ï¿½ï¿½LED
   // GPIO_ResetBits(g_ledCfg.ledPort,g_ledCfg.ledPin); // high ensable led
   // GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_RESET);// Bit_RESET->1 Bit_SET->0
 
   while (1)
     {
-      // µãÁÁED0 ·½·¨Ò»
+      // LEDï¿½ï¿½Ë¸0 ï¿½ï¿½ï¿½ï¿½Ò»
       GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_RESET); // Bit_RESET->1  enable led
       Delay_ms(g_ledCfg.ledDelay);
       GPIO_WriteBit(g_ledCfg.ledPort,g_ledCfg.ledPin,Bit_SET); // Bit_SET->0  disable led
-      Delay_ms(g_ledCfg.ledDelay);
+      delay_ms(g_ledCfg.ledDelay);
 
-      // µãÁÁLED0 ·½·¨¶þ
+      // LEDï¿½ï¿½Ë¸0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
       GPIO_SetBits(g_ledCfg.ledPort, g_ledCfg.ledPin); // low disable led
       Delay_ms(g_ledCfg.ledDelay);
       GPIO_ResetBits(g_ledCfg.ledPort,g_ledCfg.ledPin); // high ensable led

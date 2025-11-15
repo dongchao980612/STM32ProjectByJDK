@@ -1,10 +1,9 @@
 #ifndef __LED_H
 #define __LED_H
 
-
+   /* Led */
 typedef struct
 {
-    /* Led */
     GPIO_TypeDef*       ledPort;
     uint32_t            ledClock;
     uint16_t            ledPin;
@@ -12,9 +11,9 @@ typedef struct
 
 
 
-void led_init(void);
-void led_on(void);
-void led_off(void);
-void led_turn(void);
+void Led_Init(void);
+void Led_On(void);
+void Led_Off(void);
+void Led_Turn(void);
 
 #endif

@@ -10,7 +10,7 @@ static BuzzerCfg_t g_buzzerCfg =
     GPIO_Pin_8,
 };
 
-void buzzer_init(void)
+void Buzzer_Init(void)
 {
     RCC_APB2PeriphClockCmd(g_buzzerCfg.buzzerClock, ENABLE);
 
@@ -24,7 +24,7 @@ void buzzer_init(void)
 		GPIO_SetBits(g_buzzerCfg.buzzerPort,g_buzzerCfg.buzzerPin); 
 }
 
-void buffer_trun(void)
+void Buffer_Trun(void)
 {
     if(GPIO_ReadOutputDataBit(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin) == 0)
     {
@@ -36,12 +36,12 @@ void buffer_trun(void)
     }
 }
 
-void buzzer_on(void)
+void Buzzer_On(void)
 {
     GPIO_ResetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
 }
 
-void buzzer_off(void)
+void Buzzer_Off(void)
 {
     GPIO_SetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
 }

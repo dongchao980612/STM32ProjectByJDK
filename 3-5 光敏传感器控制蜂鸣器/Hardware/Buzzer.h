@@ -10,15 +10,15 @@ typedef struct{
 
 
 
-void buzzer_init(void);
+void Buzzer_Init(void);
 
 
-void buzzer_trun(void);
+void Buzzer_Trun(void);
 
 
-void buzzer_on(void);
+void Buzzer_On(void);
 
 
-void buzzer_off(void);
+void Buzzer_Off(void);
 
 #endif

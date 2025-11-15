@@ -5,7 +5,7 @@
   * @param  xus 延时时长，范围：0~233015
   * @retval 无
   */
-void delay_us(uint32_t xus)
+void Delay_us(uint32_t xus)
 {
 	SysTick->LOAD = 72 * xus;				//设置定时器重装值
 	SysTick->VAL = 0x00;					//清空当前计数值
@@ -19,11 +19,11 @@ void delay_us(uint32_t xus)
   * @param  xms 延时时长，范围：0~4294967295
   * @retval 无
   */
-void delay_ms(uint32_t xms)
+void Delay_ms(uint32_t xms)
 {
 	while(xms--)
 	{
-		delay_us(1000);
+		Delay_us(1000);
 	}
 }
  
@@ -32,10 +32,10 @@ void delay_ms(uint32_t xms)
   * @param  xs 延时时长，范围：0~4294967295
   * @retval 无
   */
-void delay_s(uint32_t xs)
+void Delay_s(uint32_t xs)
 {
 	while(xs--)
 	{
-		delay_ms(1000);
+		Delay_ms(1000);
 	}
 } 

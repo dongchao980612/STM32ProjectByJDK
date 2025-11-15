@@ -14,7 +14,7 @@ static KeyCfg_t g_keyCfgs[] =
 const int SELECT_KEY = 2;
 
 // 按键初始化
-void key_init(void)
+void Key_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
 
@@ -24,17 +24,17 @@ void key_init(void)
     GPIO_Init(g_keyCfgs[SELECT_KEY].keyPort, &GPIO_InitStructure);
 }
 
-uint8_t key_getNum(void)
+uint8_t Key_GetNum(void)
 {
     uint8_t keyNum = 0;
 
     if(GPIO_ReadInputDataBit(g_keyCfgs[SELECT_KEY].keyPort, g_keyCfgs[SELECT_KEY].keyPin) == 0) //按下
     {
-        delay_ms(20);
+        Delay_ms(20);
 
         while(GPIO_ReadInputDataBit(g_keyCfgs[SELECT_KEY].keyPort, g_keyCfgs[SELECT_KEY].keyPin) == 0)
         {
-            delay_ms(20);
+            Delay_ms(20);
             keyNum = 1;
         }
     }

@@ -6,13 +6,13 @@
 
 static OledCfg_t g_oledCfg = {
 	/* Tx Pin */
-	RCC_APB2Periph_GPIOB,
-	GPIO_Pin_8,
-	GPIOB,
+	RCC_APB2Periph_GPIOD,
+	GPIO_Pin_3,
+	GPIOD,
 	/* Rx Pin */
-	RCC_APB2Periph_GPIOB,
-	GPIO_Pin_9,
-	GPIOB,
+	RCC_APB2Periph_GPIOG,
+	GPIO_Pin_13,
+	GPIOG,
 };
 
 

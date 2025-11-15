@@ -9,7 +9,7 @@ static LightSensorCfg_t g_lightSensorCfg =
     GPIO_Pin_8,
 };
 
-void lightSensor_init(void)
+void LightSensor_Init(void)
 {
     RCC_APB2PeriphClockCmd(g_lightSensorCfg.lightSensorClock, ENABLE);
 
@@ -23,7 +23,7 @@ void lightSensor_init(void)
     GPIO_SetBits(g_lightSensorCfg.lightSensorPort, g_lightSensorCfg.lightSensorPin);
 }
 
-uint8_t lightSensor_getNum(void)
+uint8_t LightSensor_GetNum(void)
 {
     return GPIO_ReadInputDataBit(g_lightSensorCfg.lightSensorPort, g_lightSensorCfg.lightSensorPin);
 }
