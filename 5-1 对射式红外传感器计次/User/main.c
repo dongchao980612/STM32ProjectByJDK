@@ -1,16 +1,20 @@
 #include "stm32f10x.h"                  // Device header
+
 #include "oled.h"
 #include "CountSensor.h"
 
 int main(void)
 {
-	/*æ¨¡å—åˆå§‹åŒ–*/
-	OLED_Init();		//OLEDåˆå§‹åŒ–
-	CountSensor_Init();		//è®¡æ•°ä¼ æ„Ÿå™¨åˆå§‹åŒ–
-	
-	OLED_ShowString(1,1,"Count:");
-	while (1)
+    /*Ä£¿é³õÊ¼»¯*/
+    OLED_Init();		//OLED³õÊ¼»¯
+    CountSensor_Init();		//¼ÆÊı´«¸ĞÆ÷³õÊ¼»¯
+
+    OLED_ShowString(1, 1, "Count number:");	//1ĞĞ1ÁĞÏÔÊ¾×Ö·û´®Count number:
+
+
+    while (1)
     {
-		OLED_ShowNum(1,7,CountSensor_Get(),5);
+        uint16_t cnt = CountSensor_Get();
+        OLED_ShowNum(2, 2, cnt, 3);
     }
 }

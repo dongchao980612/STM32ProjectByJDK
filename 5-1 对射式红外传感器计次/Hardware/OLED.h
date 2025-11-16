@@ -1,15 +1,16 @@
 #ifndef __OLED_H
 #define __OLED_H
 
-typedef struct{
-	/* Tx Pin */
-	uint32_t             txClock;
-	uint16_t             txPin;
-	GPIO_TypeDef*        txPort;
-	/* Rx Pin */         
-	uint32_t             rxClock;
-	uint16_t             rxPin;
-	GPIO_TypeDef*        rxPort;
+typedef struct
+{
+  /* Tx Pin */
+  uint32_t             txClock;
+  uint16_t             txPin;
+  GPIO_TypeDef*        txPort;
+  /* Rx Pin */
+  uint32_t             rxClock;
+  uint16_t             rxPin;
+  GPIO_TypeDef*        rxPort;
 } OledCfg_t;
 
 
