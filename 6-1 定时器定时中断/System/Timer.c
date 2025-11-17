@@ -5,11 +5,6 @@ extern uint32_t  Number;
 
 static timer2Cfg_t g_timer2Cfg =
 {
-    /* GPIO */
-    GPIOC,
-    RCC_APB2Periph_GPIOC,
-    GPIO_Pin_0,
-
     /* Timer2 */
     TIM2,
     RCC_APB1Periph_TIM2,
@@ -17,8 +12,8 @@ static timer2Cfg_t g_timer2Cfg =
     TIM_CKD_DIV1,
     TIM_CounterMode_Up,
 
-    10 - 1,
-    1 - 1,
+    10000 - 1,
+    7200 - 1,
     0,
 
 
@@ -30,20 +25,11 @@ static timer2Cfg_t g_timer2Cfg =
 
 void Timer_Init(void)
 {
-
     // 开启时钟
-    RCC_APB2PeriphClockCmd(g_timer2Cfg.outClock, ENABLE);
     RCC_APB1PeriphClockCmd(g_timer2Cfg.timerClock, ENABLE);
 
-    GPIO_InitTypeDef GPIO_InitStructure;
-    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
-    GPIO_InitStructure.GPIO_Pin = g_timer2Cfg.outPin;
-    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-    GPIO_Init(g_timer2Cfg.outPort, &GPIO_InitStructure);
-
-
     // 配置内部时钟
-    TIM_ETRClockMode2Config(g_timer2Cfg.timer, TIM_ExtTRGPSC_OFF, TIM_ExtTRGPolarity_NonInverted, 0x00);
+    TIM_InternalClockConfig(g_timer2Cfg.timer);
 
     // 配置时基单元
     TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;

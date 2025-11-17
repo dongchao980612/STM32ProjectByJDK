@@ -2,29 +2,19 @@
 #include "oled.h"
 #include "timer.h"
 
-int16_t Num;
+uint32_t  Number = 0;
 
 int main(void)
 {
-	// OLED初始化
-	OLED_Init();		
+    OLED_Init();		//OLED初始化
+    Timer_Init();
 
-	Timer2_Init();
-	
-	OLED_ShowString(1,1,"Num:");
-	OLED_ShowString(2,1,"CNT:");
-	while (1)
+    OLED_ShowString(1, 1, "Number:");
+    OLED_ShowString(2, 1, "Counter:");
+
+    while (1)
     {
-		OLED_ShowNum(1,5,Num,5);
-		OLED_ShowNum(2,5,Timer2_GetCounter(),5);
+        OLED_ShowNum(1, 9, Number, 5);
+        OLED_ShowNum(2, 9, Timer2_GetCounter(), 5);
     }
-}
-
-void TIM2_IRQHandler(void)
-{
-	if(TIM_GetITStatus(TIM2,TIM_IT_Update)==SET)
-	{
-		Num++;
-		TIM_ClearITPendingBit(TIM2,TIM_IT_Update);
-	}	
 }

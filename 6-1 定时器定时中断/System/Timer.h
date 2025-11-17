@@ -3,11 +3,6 @@
 
 typedef struct
 {
-    /* GPIO */
-    GPIO_TypeDef*       outPort;
-    uint32_t            outClock;
-    uint16_t            outPin;
-
     /* Timer2 */
     TIM_TypeDef* 					timer;
     uint32_t 						timerClock;
