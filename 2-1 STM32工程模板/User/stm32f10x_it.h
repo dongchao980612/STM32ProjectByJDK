@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    Project/STM32F10x_StdPeriph_Template/stm32f10x_it.h 
+  * @file    CEC/DataExchangeInterrupt/stm32f10x_it.h 
   * @author  MCD Application Team
   * @version V3.5.0
   * @date    08-April-2011
@@ -44,6 +44,8 @@ void SVC_Handler(void);
 void DebugMon_Handler(void);
 void PendSV_Handler(void);
 void SysTick_Handler(void);
+void EXTI9_5_IRQHandler(void);
+void CEC_IRQHandler(void);
 
 #ifdef __cplusplus
 }
