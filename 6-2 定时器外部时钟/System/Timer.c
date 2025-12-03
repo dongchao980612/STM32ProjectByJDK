@@ -82,7 +82,7 @@ void Timer_Init(void)
 
 uint16_t Timer2_GetCounter(void)
 {
-    return TIM_GetCounter(TIM2);
+    return TIM_GetCounter(g_timer2Cfg.timer);
 }
 
 

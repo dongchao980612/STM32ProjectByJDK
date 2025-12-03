@@ -9,7 +9,7 @@ typedef struct
     uint16_t            outPin;
 
     /* Timer2 */
-    TIM_TypeDef* 					timer;
+    TIM_TypeDef* 				timer;
     uint32_t 						timerClock;
 
     uint16_t 						timerClockDivision;
