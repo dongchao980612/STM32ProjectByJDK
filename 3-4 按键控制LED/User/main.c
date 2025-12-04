@@ -6,20 +6,47 @@
 
 int main(void)
 {
-  Led_Init();
-  Key_Init();
+    Led0_Init();
+    Led1_Init();
 
-  while (1)
+    Key0_Init();
+    Key1_Init();
+
+    // Led0_On();
+    // Led1_On();
+
+
+    while (1)
     {
-        // Led_On();
+        // Led0_On();
         // Delay_ms(1000);
-        // Led_Off();
+        // Led0_Off();
         // Delay_ms(1000);
-
-      if(Key_GetNum() == 1)
+        #if  1
+        if(Key0_GetStatus() == KeyMode_PREDDED)
         {
-          Led_Turn();
+            Led0_On();
         }
+        else
+        {
+            Led0_Off();
+        }
+
+
+
+        if(Key1_GetStatus() == KeyMode_PREDDED)
+        {
+
+            Led1_On();
+        }
+        else
+        {
+
+            Led1_Off();
+        }
+
+
+        #endif
 
     }
 }

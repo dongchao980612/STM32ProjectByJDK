@@ -1,9 +1,10 @@
 #include "stm32f10x.h"                  // Device header
 #include "lightsensor.h"
 
-/* LightSensor */
+
 static LightSensorCfg_t g_lightSensorCfg =
 {
+    /* LightSensor */
     GPIOF,
     RCC_APB2Periph_GPIOF,
     GPIO_Pin_8,
@@ -23,7 +24,9 @@ void LightSensor_Init(void)
     GPIO_SetBits(g_lightSensorCfg.lightSensorPort, g_lightSensorCfg.lightSensorPin);
 }
 
-uint8_t LightSensor_GetNum(void)
+LightStatus_TypeDef  LightSensor_GetStatus(void)
 {
-    return GPIO_ReadInputDataBit(g_lightSensorCfg.lightSensorPort, g_lightSensorCfg.lightSensorPin);
+    uint8_t raw = GPIO_ReadInputDataBit(g_lightSensorCfg.lightSensorPort, g_lightSensorCfg.lightSensorPin);
+
+    return (raw ? LIGHT_STATUS_DARK : LIGHT_STATUS_BRIGHT);
 }

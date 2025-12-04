@@ -2,9 +2,10 @@
 #include "buzzer.h"
 
 
-/* Buzzer */
+
 static BuzzerCfg_t g_buzzerCfg =
 {
+    /* Buzzer */
     GPIOB,
     RCC_APB2Periph_GPIOB,
     GPIO_Pin_8,
@@ -21,27 +22,27 @@ void Buzzer_Init(void)
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(g_buzzerCfg.buzzerPort, &GPIO_InitStructure);
 
-		GPIO_SetBits(g_buzzerCfg.buzzerPort,g_buzzerCfg.buzzerPin); 
+    GPIO_ResetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
 }
 
 void Buffer_Trun(void)
 {
-    if(GPIO_ReadOutputDataBit(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin) == 0)
+    if(GPIO_ReadOutputDataBit(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin) == BuzzerMode_ON)
     {
-        GPIO_SetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
+        Buzzer_Off();
     }
     else
     {
-        GPIO_ResetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
+        Buzzer_On();
     }
 }
 
 void Buzzer_On(void)
 {
-    GPIO_ResetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
+    GPIO_SetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
 }
 
 void Buzzer_Off(void)
 {
-    GPIO_SetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
+    GPIO_ResetBits(g_buzzerCfg.buzzerPort, g_buzzerCfg.buzzerPin);
 }

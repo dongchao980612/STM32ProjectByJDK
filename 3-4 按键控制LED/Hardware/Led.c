@@ -1,46 +1,95 @@
 #include "stm32f10x.h"                  // Device header
 #include "led.h"
 
-/* Led */
-static LedCfg_t g_ledCfg =
+
+static LedCfg_t g_ledCfg0 =
 {
-  GPIOB,
-  RCC_APB2Periph_GPIOB,
-  GPIO_Pin_5
+    /* Led0 */
+    GPIOB,
+    RCC_APB2Periph_GPIOB,
+    GPIO_Pin_5
 };
 
-void Led_Init(void)
+static LedCfg_t g_ledCfg1 =
 {
-  RCC_APB2PeriphClockCmd(g_ledCfg.ledClock, ENABLE);
+    /* Led1 */
+    GPIOE,
+    RCC_APB2Periph_GPIOE,
+    GPIO_Pin_5
+};
 
-  GPIO_InitTypeDef GPIO_InitStructure;
+void Led0_Init(void)
+{
+    RCC_APB2PeriphClockCmd(g_ledCfg0.ledClock, ENABLE);
 
-  GPIO_InitStructure.GPIO_Pin =  g_ledCfg.ledPin;
-  GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-  GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
-  GPIO_Init(g_ledCfg.ledPort, &GPIO_InitStructure);
+    GPIO_InitTypeDef GPIO_InitStructure;
 
-  GPIO_SetBits(g_ledCfg.ledPort,g_ledCfg.ledPin);
+    GPIO_InitStructure.GPIO_Pin =  g_ledCfg0.ledPin;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(g_ledCfg0.ledPort, &GPIO_InitStructure);
+
+    GPIO_SetBits(g_ledCfg0.ledPort, g_ledCfg0.ledPin);
 }
 
-void Led_Turn()
+void Led0_Turn()
 {
-  if(GPIO_ReadOutputDataBit(g_ledCfg.ledPort, g_ledCfg.ledPin) == 0)
+    if(GPIO_ReadOutputDataBit(g_ledCfg0.ledPort, g_ledCfg0.ledPin) == LEDMode_ON)
     {
-      GPIO_SetBits(g_ledCfg.ledPort, g_ledCfg.ledPin);
+        Led0_Off();
     }
-  else
+    else
     {
-      GPIO_ResetBits(g_ledCfg.ledPort, g_ledCfg.ledPin);
+        Led0_On();
     }
 }
 
-void Led_On(void)
+void Led0_On(void)
 {
-  GPIO_ResetBits(g_ledCfg.ledPort, g_ledCfg.ledPin);
+    GPIO_ResetBits(g_ledCfg0.ledPort, g_ledCfg0.ledPin);
 }
 
-void Led_Off(void)
+void Led0_Off(void)
 {
-  GPIO_SetBits(g_ledCfg.ledPort, g_ledCfg.ledPin);
+    GPIO_SetBits(g_ledCfg0.ledPort, g_ledCfg0.ledPin);
+}
+
+
+
+
+
+void Led1_Init(void)
+{
+    RCC_APB2PeriphClockCmd(g_ledCfg1.ledClock, ENABLE);
+
+    GPIO_InitTypeDef GPIO_InitStructure;
+
+    GPIO_InitStructure.GPIO_Pin =  g_ledCfg0.ledPin;
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
+    GPIO_Init(g_ledCfg1.ledPort, &GPIO_InitStructure);
+
+    GPIO_SetBits(g_ledCfg1.ledPort, g_ledCfg1.ledPin);
+}
+
+void Led1_Turn()
+{
+    if(GPIO_ReadOutputDataBit(g_ledCfg1.ledPort, g_ledCfg1.ledPin) == LEDMode_ON)
+    {
+        Led1_Off();
+    }
+    else
+    {
+        Led1_On();
+    }
+}
+
+void Led1_On(void)
+{
+    GPIO_ResetBits(g_ledCfg1.ledPort, g_ledCfg1.ledPin);
+}
+
+void Led1_Off(void)
+{
+    GPIO_SetBits(g_ledCfg1.ledPort, g_ledCfg1.ledPin);
 }

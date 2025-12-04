@@ -1,24 +1,24 @@
 #ifndef __BUZZER_H
 #define __BUZZER_H
 
-typedef struct{
-	/* Buzzer */
-	GPIO_TypeDef*       buzzerPort;
-	uint32_t            buzzerClock;
-	uint16_t            buzzerPin;
+typedef struct
+{
+    /* Buzzer */
+    GPIO_TypeDef*       buzzerPort;
+    uint32_t            buzzerClock;
+    uint16_t            buzzerPin;
 } BuzzerCfg_t;
 
+typedef enum
+{
+    BuzzerMode_ON = 0,
+    BuzzerMode_OFF = 1,
+} BuzzerMode_TypeDef;
 
 
 void Buzzer_Init(void);
-
-
 void Buzzer_Trun(void);
-
-
 void Buzzer_On(void);
-
-
 void Buzzer_Off(void);
 
 #endif

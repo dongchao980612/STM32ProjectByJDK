@@ -1,8 +1,10 @@
 #include "stm32f10x.h"                  // Device header
 #include "delay.h"
 
+
 typedef struct
 {
+    /* Led */
     GPIO_TypeDef*       ledPort_B;
     GPIO_TypeDef*       ledPort_E;
     uint32_t            ledClock_B;
@@ -12,8 +14,10 @@ typedef struct
     uint32_t			      ledDelay;
 } LedCfg_t;
 
+
 static LedCfg_t g_ledCfg =
 {
+    /* Led */
     GPIOB,
     GPIOE,
     RCC_APB2Periph_GPIOB,
@@ -30,7 +34,7 @@ int main(void)
     RCC_APB2PeriphClockCmd(g_ledCfg.ledClock_B, ENABLE);
     RCC_APB2PeriphClockCmd(g_ledCfg.ledClock_E, ENABLE);
 
-    GPIO_InitStructure.GPIO_Pin =  g_ledCfg.ledPin_B|g_ledCfg.ledPin_E;
+    GPIO_InitStructure.GPIO_Pin =  g_ledCfg.ledPin_B | g_ledCfg.ledPin_E;
     GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;
     GPIO_Init(g_ledCfg.ledPort_B, &GPIO_InitStructure);
