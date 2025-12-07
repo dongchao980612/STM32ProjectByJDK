@@ -2,21 +2,9 @@
 #include "led.h"
 
 
-static LedCfg_t g_ledCfg0 =
-{
-    /* Led0 */
-    GPIOB,
-    RCC_APB2Periph_GPIOB,
-    GPIO_Pin_5
-};
+extern LedCfg_t g_ledCfg0;
+extern LedCfg_t g_ledCfg1;
 
-static LedCfg_t g_ledCfg1 =
-{
-    /* Led1 */
-    GPIOE,
-    RCC_APB2Periph_GPIOE,
-    GPIO_Pin_5
-};
 
 void Led0_Init(void)
 {

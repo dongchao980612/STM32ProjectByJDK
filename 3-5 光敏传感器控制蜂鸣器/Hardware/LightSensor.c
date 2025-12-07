@@ -1,14 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include "lightsensor.h"
 
-
-static LightSensorCfg_t g_lightSensorCfg =
-{
-    /* LightSensor */
-    GPIOF,
-    RCC_APB2Periph_GPIOF,
-    GPIO_Pin_8,
-};
+extern  LightSensorCfg_t g_lightSensorCfg;
 
 void LightSensor_Init(void)
 {

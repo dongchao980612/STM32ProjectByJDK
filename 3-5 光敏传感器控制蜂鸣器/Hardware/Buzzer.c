@@ -1,15 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include "buzzer.h"
 
-
-
-static BuzzerCfg_t g_buzzerCfg =
-{
-    /* Buzzer */
-    GPIOB,
-    RCC_APB2Periph_GPIOB,
-    GPIO_Pin_8,
-};
+extern BuzzerCfg_t g_buzzerCfg;
 
 void Buzzer_Init(void)
 {

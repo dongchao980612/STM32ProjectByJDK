@@ -1,17 +1,18 @@
 #include "stm32f10x.h"                  // Device header
 #include "oled.h"
+#include "i2c.h"
 
 I2CCfg_t g_i2cCfg =
 {
     /* SCL Pin*/
-    RCC_APB2Periph_GPIOB,
-    GPIO_Pin_7,
-    GPIOB,
+    RCC_APB2Periph_GPIOD,
+    GPIO_Pin_3,
+    GPIOD,
 
     /* SDA Pin */
-    RCC_APB2Periph_GPIOB,
-    GPIO_Pin_8,
-    GPIOB,
+    RCC_APB2Periph_GPIOG,
+    GPIO_Pin_13,
+    GPIOG,
 };
 
 int main(void)

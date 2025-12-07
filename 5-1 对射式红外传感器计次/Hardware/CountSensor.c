@@ -2,25 +2,7 @@
 #include "CountSensor.h"
 
 
-static CountSensorCfg_t g_countsensorCfg =
-{
-    /* CountSensor */
-    GPIOC,
-    RCC_APB2Periph_GPIOC,
-    GPIO_Pin_0,
-
-    /* AFIO */
-    GPIO_PortSourceGPIOC,
-    RCC_APB2Periph_AFIO,
-    GPIO_PinSource0,
-
-    /* EXIT */
-    EXTI_Line0,
-
-    /* NVIC */
-    NVIC_PriorityGroup_2,
-    EXTI0_IRQn
-};
+extern CountSensorCfg_t g_countsensorCfg;
 
 
 

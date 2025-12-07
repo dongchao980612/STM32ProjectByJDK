@@ -2,14 +2,14 @@
 #include "pwm.h"
 
 static pwmCfg_t g_pwmCfg = {
-		/* GPIO */
-	GPIOA,
-	RCC_APB2Periph_GPIOA,
-	GPIO_Pin_0,
+	/* GPIO */
+	GPIOB,
+	RCC_APB2Periph_GPIOB,
+	GPIO_Pin_5,
 	
-	/* Timer2 */
-	TIM2,
-	RCC_APB1Periph_TIM2,
+	/* Timer3 */
+	TIM3,
+	RCC_APB1Periph_TIM3,
 	
 	TIM_CKD_DIV1,
 	TIM_CounterMode_Up,
@@ -20,18 +20,19 @@ static pwmCfg_t g_pwmCfg = {
 	0
 };
 
-
+// PB5 是 TIM3_CH2 的重映射引脚，PA7 是 TIM3_CH2 的默认引脚
 void PWM_Init(void)
 {
 	RCC_APB2PeriphClockCmd(g_pwmCfg.pwmClock, ENABLE);
 	RCC_APB1PeriphClockCmd(g_pwmCfg.timerClock, ENABLE);
 	
+	// 引脚复用
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
 	
-//  引脚复用
-//	RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);
-//  引脚重映射
-//	GPIO_PinRemapConfig(GPIO_PartialRemap1_TIM2, ENABLE);   // 部分重映射
-	//	GPIO_PinRemapConfig(GPIO_Remap_SWJ_JTAGDisable, ENABLE);  //解除调试端口复用
+	//  引脚重映射
+	GPIO_PinRemapConfig(GPIO_PartialRemap_TIM3, ENABLE);   //重映射
+	
+	
 	
 	GPIO_InitTypeDef GPIO_InitStructure;
 	
@@ -40,6 +41,10 @@ void PWM_Init(void)
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	
 	GPIO_Init(g_pwmCfg.pwmPort, &GPIO_InitStructure);
+		
+	
+	
+	
 	
 	// 定时器初始化
 	TIM_InternalClockConfig(g_pwmCfg.timer);
@@ -61,12 +66,12 @@ void PWM_Init(void)
 	TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable;
 	TIM_OCInitStructure.TIM_Pulse = g_pwmCfg.timerPulse;		// CCR
 	
-	TIM_OC1Init(g_pwmCfg.timer, &TIM_OCInitStructure);
+	TIM_OC2Init(g_pwmCfg.timer, &TIM_OCInitStructure);
 	
 	TIM_Cmd(g_pwmCfg.timer, ENABLE);
 }
 
-void PWM_SetCompare1(uint16_t Compare)
+void PWM_SetCompare2(uint16_t Compare)
 {
-	TIM_SetCompare1(g_pwmCfg.timer, Compare);
+	TIM_SetCompare2(g_pwmCfg.timer, Compare);
 }

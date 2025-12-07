@@ -2,23 +2,8 @@
 #include "delay.h"
 #include "key.h"
 
-// 按键配置
-static KeyCfg_t g_keyCfgs0 =
-{
-    /* Key0 */
-    GPIOE,
-    RCC_APB2Periph_GPIOE,
-    GPIO_Pin_4
-};
-
-static KeyCfg_t g_keyCfgs1 =
-{
-    /* Key1 */
-    GPIOE,
-    RCC_APB2Periph_GPIOE,
-    GPIO_Pin_3
-    // KEY1 通常上拉
-};
+extern KeyCfg_t g_keyCfgs0;
+extern KeyCfg_t g_keyCfgs1;
 
 
 const int SELECT_KEY = 0;
