@@ -1,29 +1,22 @@
 #include "stm32f10x.h"                  // Device header
-#include "Delay.h"
-#include "OLED.h"
-#include "Serial.h"
+#include "usart.h"
+#include "delay.h"
+#include <stdio.h>
 
-uint8_t RxData;			//å®šä¹‰ç”¨äºæ¥æ”¶ä¸²å£æ•°æ®çš„å˜é‡
+uint8_t RxData;			//¶¨ÒåÓÃÓÚ½ÓÊÕ´®¿ÚÊı¾İµÄ±äÁ¿
+
 
 int main(void)
 {
-	/*æ¨¡å—åˆå§‹åŒ–*/
-	OLED_Init();		//OLEDåˆå§‹åŒ–
-	
-	/*æ˜¾ç¤ºé™æ€å­—ç¬¦ä¸²*/
-	OLED_ShowString(1, 1, "RxData:");
-	
-	/*ä¸²å£åˆå§‹åŒ–*/
-	Serial_Init();		//ä¸²å£åˆå§‹åŒ–
-	
-	while (1)
-	{
-		if (Serial_GetRxFlag() == 1)			//æ£€æŸ¥ä¸²å£æ¥æ”¶æ•°æ®çš„æ ‡å¿—ä½
-		{
-			RxData = Serial_GetRxData();		//è·å–ä¸²å£æ¥æ”¶çš„æ•°æ®
-			Serial_SendByte(RxData);			//ä¸²å£å°†æ”¶åˆ°çš„æ•°æ®å›ä¼ å›å»ï¼Œç”¨äºæµ‹è¯•
-			OLED_ShowHexNum(1, 8, RxData, 2);	//æ˜¾ç¤ºä¸²å£æ¥æ”¶çš„æ•°æ®
-			printf("\r\nRxData=%d", RxData);	
-		}
-	}
+    My_USART_Init();
+
+    while (1)
+    {
+//			if (USART_GetRxFlag() == 1)	{
+//			RxData = USART_GetRxData();		//»ñÈ¡´®¿Ú½ÓÊÕµÄÊı¾İ
+//			My_USART_SendByte(RxData);			//´®¿Ú½«ÊÕµ½µÄÊı¾İ»Ø´«»ØÈ¥£¬ÓÃÓÚ²âÊÔ
+//			printf("\r\nRxData=%d", RxData);	
+//				
+//			}
+    }
 }
