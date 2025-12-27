@@ -3,7 +3,7 @@
 
 
 // OLED设备地址（7位地址左移1位）
-#define OLED_ADDRESS      0x78    // 7位地址0x3C左移1位
+#define OLED_ADDRESS      (0x3C<<1)    
 
 // 控制字节
 #define OLED_COMMAND_MODE 0x00    // 写命令

@@ -5,14 +5,14 @@
 I2CCfg_t g_i2cCfg =
 {
     /* SCL Pin*/
-    RCC_APB2Periph_GPIOD,
-    GPIO_Pin_3,
-    GPIOD,
+    RCC_APB2Periph_GPIOB,
+    GPIO_Pin_6,
+    GPIOB,
 
     /* SDA Pin */
-    RCC_APB2Periph_GPIOG,
-    GPIO_Pin_13,
-    GPIOG,
+    RCC_APB2Periph_GPIOB,
+    GPIO_Pin_7,
+    GPIOB,
 };
 
 int main(void)

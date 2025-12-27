@@ -2,7 +2,20 @@
 
 #include "oled.h"
 #include "CountSensor.h"
+#include "i2c.h"
 
+I2CCfg_t g_i2cCfg =
+{
+    /* SCL Pin*/
+    RCC_APB2Periph_GPIOB,
+    GPIO_Pin_6,
+    GPIOB,
+
+    /* SDA Pin */
+    RCC_APB2Periph_GPIOB,
+    GPIO_Pin_7,
+    GPIOB,
+};
 int main(void)
 {
     /*Ä£¿é³õÊ¼»¯*/

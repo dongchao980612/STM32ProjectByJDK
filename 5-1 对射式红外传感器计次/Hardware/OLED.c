@@ -3,21 +3,8 @@
 #include "i2c.h"
 #include "oled_font.h"
 
-static void delay_ms_oled(uint32_t ms)
-{
-    uint32_t i, j;
-
-    for (i = 0; i < ms; i++)
-        for (j = 0; j < 10000; j++)
-            ;
-}
-
 void OLED_Init(void)
 {
-
-    // 硬件复位延时
-    delay_ms_oled(100);
-
     // 初始化I2C硬件
     My_I2C_Init(); // 端口初始化
 
@@ -66,18 +53,67 @@ void OLED_Init(void)
 void OLED_WriteCommand(uint8_t Command)
 {
     My_I2C_Start();
+    My_I2C_Delay();
+
     My_I2C_SendByte(OLED_ADDRESS);      // 从机地址
+
+    if (My_I2C_ReceiveACK() != I2C_ACK)     // 检查应答，无应答则直接停止
+    {
+        My_I2C_Stop();
+        return;
+    }
+
     My_I2C_SendByte(OLED_COMMAND_MODE); // 写命令
+
+    if (My_I2C_ReceiveACK() != I2C_ACK)     // 检查应答，无应答则直接停止
+    {
+        My_I2C_Stop();
+        return;
+    }
+
     My_I2C_SendByte(Command);
+
+    if (My_I2C_ReceiveACK() != I2C_ACK)     // 检查应答，无应答则直接停止
+    {
+        My_I2C_Stop();
+        return;
+    }
+
     My_I2C_Stop();
+    My_I2C_Delay();
+
 }
 void OLED_WriteData(uint8_t Data)
 {
     My_I2C_Start();
+    My_I2C_Delay();
+
     My_I2C_SendByte(OLED_ADDRESS);   // 从机地址
+
+    if (My_I2C_ReceiveACK() != I2C_ACK)     // 检查应答，无应答则直接停止
+    {
+        My_I2C_Stop();
+        return;
+    }
+
     My_I2C_SendByte(OLED_DATA_MODE); // 写数据
+
+    if (My_I2C_ReceiveACK() != I2C_ACK)     // 检查应答，无应答则直接停止
+    {
+        My_I2C_Stop();
+        return;
+    }
+
     My_I2C_SendByte(Data);
+
+    if (My_I2C_ReceiveACK() != I2C_ACK)     // 检查应答，无应答则直接停止
+    {
+        My_I2C_Stop();
+        return;
+    }
+
     My_I2C_Stop();
+    My_I2C_Delay();
 }
 
 void OLED_SetCursor(uint8_t Y, uint8_t X)
