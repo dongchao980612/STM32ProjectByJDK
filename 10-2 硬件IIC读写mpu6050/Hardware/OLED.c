@@ -7,13 +7,13 @@
 OLEDCfg_t g_oledCfg =
 {
     I2C1,
-
 };
 
 
 void OLED_Init(void)
 {
     I2C_Common_Init(g_oledCfg.iic);
+	
     // OLED初始化命令序列
     OLED_WriteCommand(0xAE); // 关闭显示
 
@@ -64,31 +64,28 @@ void OLED_WriteCommand(uint8_t Command)
     I2C_GenerateSTART(g_oledCfg.iic, ENABLE);
     
     // 等待EV5：起始条件已发送
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_MODE_SELECT)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_MODE_SELECT)!= SUCCESS);
     
     // 发送从机地址（写模式）
     I2C_Send7bitAddress(g_oledCfg.iic, OLED_ADDRESS, I2C_Direction_Transmitter);
     
     // 等待EV6：地址已发送并收到ACK
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)!= SUCCESS);
     
     // 发送控制字节（命令模式）
     I2C_SendData(g_oledCfg.iic, OLED_COMMAND_MODE);  // 通常0x00表示命令模式
     
     // 等待EV8_1：数据寄存器为空（可以发送下一个字节）
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTING)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTING)!= SUCCESS);
     
     // 发送具体命令
     I2C_SendData(g_oledCfg.iic, Command);
     
     // 等待EV8_2：数据字节已发送
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTED)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTED)!= SUCCESS);
     
     // 生成停止条件
     I2C_GenerateSTOP(g_oledCfg.iic, ENABLE);
-    
-    // 添加小延时确保停止条件完成
-    Delay_us(10);
 }
 
 void OLED_WriteData(uint8_t Data)
@@ -97,25 +94,25 @@ void OLED_WriteData(uint8_t Data)
     I2C_GenerateSTART(g_oledCfg.iic, ENABLE);
     
     // 等待EV5
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_MODE_SELECT)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_MODE_SELECT)!= SUCCESS);
     
     // 发送从机地址
     I2C_Send7bitAddress(g_oledCfg.iic, OLED_ADDRESS, I2C_Direction_Transmitter);
     
     // 等待EV6
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED)!= SUCCESS);
     
     // 发送控制字节（数据模式）
     I2C_SendData(g_oledCfg.iic, OLED_DATA_MODE);  // 通常0x40表示数据模式
     
     // 等待EV8_1
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTING)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTING)!= SUCCESS);
     
     // 发送数据
     I2C_SendData(g_oledCfg.iic, Data);
     
     // 等待EV8_2
-    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTED)!=SUCCESS);
+    while(I2C_CheckEvent(g_oledCfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTED)!= SUCCESS);
     
     // 生成停止条件
     I2C_GenerateSTOP(g_oledCfg.iic, ENABLE);

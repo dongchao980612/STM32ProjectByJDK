@@ -25,6 +25,7 @@ void I2C_Common_Init(I2C_TypeDef* I2Cx)
     I2C_InitStructure.I2C_OwnAddress1 = 0x00;         // 主机无地址
     I2C_InitStructure.I2C_Ack = I2C_Ack_Enable;       // 使能ACK
     I2C_InitStructure.I2C_AcknowledgedAddress = I2C_AcknowledgedAddress_7bit;
+	
     I2C_Init(I2Cx, &I2C_InitStructure);
 
     // 4. 清除错误标志
@@ -32,5 +33,21 @@ void I2C_Common_Init(I2C_TypeDef* I2Cx)
 
     // 5. 使能I2C
     I2C_Cmd(I2Cx, ENABLE);
+}
+
+void I2C_TimeOutEvent(I2C_TypeDef* I2Cx, uint32_t I2C_EVENT)
+{
+    uint32_t Timeout;
+    Timeout = 10000;
+
+    while(I2C_CheckEvent(I2Cx, I2C_EVENT) == ERROR)
+    {
+        Timeout--;
+
+        if(Timeout == 0)
+        {
+            break;
+        }
+    }
 }
 
