@@ -3,6 +3,7 @@
 #include "mpu6050.h"
 #include "mpu6050_reg.h"
 #include "iic.h"
+#include "delay.h"
 
 MPU6050Cfg_t g_mpu6050Cfg =
 {
@@ -14,12 +15,18 @@ void  MPU6050_Init()
 {
     I2C_Common_Init(g_mpu6050Cfg.iic);
 
-    MPU6050_WriteReg(MPU6050_PWR_MGMT_1, 0x01);		// 配置PWR_MGMT_1寄存器，解除睡眠，选择X轴陀螺仪时钟
-    MPU6050_WriteReg(MPU6050_PWR_MGMT_2, 0x00); 	// 配置PWR_MGMT_2寄存器
-    MPU6050_WriteReg(MPU6050_SMPLRT_DIV, 0x09);		// 采样率分频，决定了数据输出的快慢。10分频
-    MPU6050_WriteReg(MPU6050_CONFIG, 0x06);				// 数字低通滤波器给110
-    MPU6050_WriteReg(MPU6050_GYRO_CONFIG, 0x18);	// 陀螺仪配置，选择最大量程11
-    MPU6050_WriteReg(MPU6050_ACCEL_CONFIG, 0x18);	// 加速度计配置，选择最大量程11
+    //不复位、解除睡眠、不开启循环模式、温度传感器失能、选择陀螺仪x轴时钟
+    MPU6050_WriteReg(MPU6050_PWR_MGMT_1, 0x01);
+    //没有开启循环模式
+    MPU6050_WriteReg(MPU6050_PWR_MGMT_2, 0x00);
+    //采样率10分频
+    MPU6050_WriteReg(MPU6050_SMPLRT_DIV, 0x09);
+    //不使用外部同步、DLPF设置等级6
+    MPU6050_WriteReg(MPU6050_CONFIG, 0x06);
+    //陀螺仪：自测失能、满量程±500°/s-000_01_000
+    MPU6050_WriteReg(MPU6050_GYRO_CONFIG, 0x08);
+    //加速度计：自测失能、满量程±2g、失能运动检测-000_00_000
+    MPU6050_WriteReg(MPU6050_ACCEL_CONFIG, 0x00);
 
 }
 
@@ -29,85 +36,69 @@ uint8_t MPU6050_GetID(void)
 }
 
 
-// 封装超时等待I2C事件的函数
-uint8_t I2C_WaitEvent_Timeout(I2C_TypeDef* I2Cx, uint32_t Event, uint32_t timeout)
+
+
+void MPU6050_WriteReg(uint8_t RegAddr, uint8_t wData)
 {
-    while(I2C_CheckEvent(I2Cx, Event) != SUCCESS)  // 使用参数I2Cx
-    {
-        timeout--;
-        if(timeout == 0)
-        {
-            I2C_Cmd(I2Cx, DISABLE);  // 这里也要改
-            I2C_Cmd(I2Cx, ENABLE);
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void MPU6050_WriteReg(uint8_t RegAddress, uint8_t Data)
-{
-    I2C_GenerateSTART(g_mpu6050Cfg.iic, ENABLE); //生成起始条件
-    I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_MODE_SELECT,10000);// EV5
-
-    I2C_Send7bitAddress(g_mpu6050Cfg.iic, MPU6050_ADDRESS, I2C_Direction_Transmitter);
-    I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED,10000);  // EV6
-
-    I2C_SendData(g_mpu6050Cfg.iic, RegAddress);
-    I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTING,10000) ;// EV8
-
-    I2C_SendData(g_mpu6050Cfg.iic, Data);
-    I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTING,10000); // EV8
-
-    I2C_GenerateSTOP(g_mpu6050Cfg.iic, ENABLE);
-}
-
-
-// 修复后的MPU6050读寄存器
-uint8_t MPU6050_ReadReg(uint8_t RegAddress)
-{
-    uint8_t Data = 0xFF;
-   
-
-    // 1. 起始条件
-    I2C_GenerateSTART(I2C1, ENABLE);
-    if(I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_MODE_SELECT, 10000)) 
-			return 0xFF;
-
-    // 2. 发送从机地址（写）
-    I2C_Send7bitAddress(I2C1, MPU6050_ADDRESS, I2C_Direction_Transmitter);
-    if(I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED, 10000)) 
-			return 0x11;
-
-    // 3. 发送寄存器地址
-    I2C_SendData(I2C1, RegAddress);
-    if(I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTED, 10000)) 
-			return 0x00;
-
-    // 4. 重复起始条件
+    // 1.发送起始位
     I2C_GenerateSTART(g_mpu6050Cfg.iic, ENABLE);
-    if(I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_MODE_SELECT, 10000)) 
-			return 0x00;
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_MODE_SELECT);//等待EV5事件发生
 
-    // 5. 发送从机地址（读）
-    I2C_Send7bitAddress(g_mpu6050Cfg.iic, MPU6050_ADDRESS, I2C_Direction_Receiver);
-    if(I2C_WaitEvent_Timeout(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED, 10000)) 
-			return 0x00;
+    // 2.发送从机地址
+    I2C_Send7bitAddress(g_mpu6050Cfg.iic, MPU6050_ADDRESS, I2C_Direction_Transmitter);
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);//等待EV6事件发生
 
-    // 6. 关闭ACK（单字节接收）
-    I2C_AcknowledgeConfig(g_mpu6050Cfg.iic, DISABLE);
+    //3.发送寄存器地址
+    I2C_SendData(g_mpu6050Cfg.iic, RegAddr);//这一步无需等到EV8_1事件发生
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTING);//等待EV8事件发生
 
-    // 7. 读取数据
-    Data = I2C_ReceiveData(g_mpu6050Cfg.iic);
+    //4.发送数据
+    I2C_SendData(g_mpu6050Cfg.iic, wData);
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTED);//等待EV8_2事件发生
+	
+    //5.发送停止位
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, ENABLE);
 
-    // 8. 发送停止条件
-    I2C_GenerateSTOP(g_mpu6050Cfg.iic, ENABLE);
-
-    // 9. 恢复ACK使能
-    I2C_AcknowledgeConfig(g_mpu6050Cfg.iic, ENABLE);
-
-    return Data;
 }
+
+//MPU6050指定地址读寄存器
+uint8_t MPU6050_ReadReg(uint8_t RegAddr)
+{
+    uint8_t rData = 0x00;
+
+    // 1.发送起始位
+    I2C_GenerateSTART(g_mpu6050Cfg.iic, ENABLE);
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_MODE_SELECT);//等待EV5事件发生
+
+    // 2.发送从机地址
+    I2C_Send7bitAddress(g_mpu6050Cfg.iic, MPU6050_ADDRESS, I2C_Direction_Transmitter);
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_TRANSMITTER_MODE_SELECTED);//等待EV6事件发生
+
+    // 3.发送寄存器地址
+    I2C_SendData(g_mpu6050Cfg.iic, RegAddr);//这一步无需等到EV8_1事件发生
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_BYTE_TRANSMITTED);//等待EV8_2事件发生
+
+
+    // 4.再次发送起始位
+    I2C_GenerateSTART(g_mpu6050Cfg.iic, ENABLE);
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_MODE_SELECT);//等待EV5事件发生
+
+    // 5.发送从机地址
+    I2C_Send7bitAddress(g_mpu6050Cfg.iic, MPU6050_ADDRESS, I2C_Direction_Receiver);
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_RECEIVER_MODE_SELECTED);//等待EV6事件发生
+
+    // 6.按照手册，需要首先设置ACK=0、并且产生停止条件
+    I2C_AcknowledgeConfig(g_mpu6050Cfg.iic, DISABLE);
+    I2C_GenerateSTOP(I2C2, ENABLE);
+    I2C_TimeOutEvent(g_mpu6050Cfg.iic, I2C_EVENT_MASTER_BYTE_RECEIVED);//等待EV7事件发生
+
+    // 7.接收数据
+    rData = I2C_ReceiveData(g_mpu6050Cfg.iic);
+    I2C_AcknowledgeConfig(g_mpu6050Cfg.iic, ENABLE);//将ACK改回默认的使能配置，方便指定地址收多个字节
+
+    return rData;
+}
+
 
 /**
  * @brief  一次性读取所有原始数据（加速度、陀螺仪、温度）

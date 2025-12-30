@@ -8,7 +8,7 @@ typedef struct
 
 // MPU设备地址
 #define MPU6050_ADDRESS      				0x68 // (0x68<<1)     
-
+#define I2C_TIMEOUT         1000    // I2C通信超时时间（ms）
 
 // 加速度计配置：0x18 → ±16g
 #define MPU6050_ACC_SCALE   (1.0f / 2048.0f)  // g per LSB

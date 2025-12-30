@@ -2,15 +2,17 @@
 
 简介：本项目是[江科电协](https://space.bilibili.com/383400717)的STM32教程的代码仓库。
 
-版本：V1.0
+- 实验器材：正点原子精英STM32F103开发板
 
-开发板信息：正点原子精英STM32F103开发板
+- 芯片版本：STM32F103ZET6
 
-开发环境：Keil5 MDK
+- Keil版本：5.24
 
-下载器：STLINK V2
+- 外设库版本：STM32F10x_StdPeriph_Lib_V3.5.0
 
-资源图：![](C:\Users\dongchao\Desktop\STM32学习合集\STM32ProjectByJDK\image\res.png)
+- 启动文件：startup_stm32f10x_hd.s
+
+资源图：![](./开发板图片.png)
 
 视频教程：https://www.bilibili.com/video/BV1th411z7sn
 
